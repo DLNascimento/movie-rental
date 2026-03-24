@@ -1,5 +1,6 @@
 package com.diego.rental.user.service;
 
+import com.diego.rental.shared.exception.BusinessException;
 import com.diego.rental.user.dto.UserRequestDTO;
 import com.diego.rental.user.dto.UserResponseDTO;
 import com.diego.rental.user.entity.UserEntity;
@@ -19,11 +20,11 @@ public class UserService {
     public UserResponseDTO create(UserRequestDTO requestDTO){
 
         userRepository.findByEmail(requestDTO.email()).ifPresent(user -> {
-            throw new RuntimeException("Email already exists");
+            throw new BusinessException("Email already exists");
         });
 
         userRepository.findByCpf(requestDTO.cpf()).ifPresent(cpf -> {
-            throw new RuntimeException("Cpf already exists");
+            throw new BusinessException("Cpf already exists");
         });
 
         UserEntity user = new UserEntity(
