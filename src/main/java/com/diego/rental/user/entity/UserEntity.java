@@ -27,10 +27,15 @@ public class UserEntity {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
+
     public UserEntity() {
     }
 
-    public UserEntity(String name, String lastName, String email, String cpf, LocalDateTime createdAt) {
+    public UserEntity(String name, String lastName, String email, String cpf) {
         this.name = name;
         this.lastName = lastName;
         this.email = email;
