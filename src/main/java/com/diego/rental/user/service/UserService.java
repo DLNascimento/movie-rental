@@ -7,6 +7,8 @@ import com.diego.rental.user.entity.UserEntity;
 import com.diego.rental.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -41,6 +43,27 @@ public class UserService {
                 saved.getLastName(),
                 saved.getEmail()
         );
+
+    }
+
+    public List<UserResponseDTO> findAllUsers(){
+
+        return userRepository.findAll().stream().map(user -> new UserResponseDTO(
+                user.getId(),
+                user.getName(),
+                user.getLastName(),
+                user.getEmail()
+        )).toList();
+
+    }
+
+    public UserResponseDTO findById(Long id){
+
+        UserEntity user = userRepository.findById(id).orElseThrow(() -> new BusinessException("User not found"));
+        return new UserResponseDTO(user.getId(),
+                user.getName(),
+                user.getLastName(),
+                user.getEmail());
 
     }
 
