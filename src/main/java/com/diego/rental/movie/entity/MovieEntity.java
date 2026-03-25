@@ -20,7 +20,7 @@ public class MovieEntity {
 
     private Integer releaseYear;
 
-    private Boolean isAvailable = true;
+    private Boolean available = true;
 
     private LocalDateTime createdAt;
 
@@ -32,12 +32,12 @@ public class MovieEntity {
     public MovieEntity() {
     }
 
-    public MovieEntity(String title, String description, String genre, Integer releaseYear, Boolean isAvailable, LocalDateTime createdAt) {
+    public MovieEntity(String title, String description, String genre, Integer releaseYear, Boolean available, LocalDateTime createdAt) {
         this.title = title;
         this.description = description;
         this.genre = genre;
         this.releaseYear = releaseYear;
-        this.isAvailable = isAvailable;
+        this.available = available;
         this.createdAt = createdAt;
     }
 
@@ -82,11 +82,11 @@ public class MovieEntity {
     }
 
     public Boolean getAvailable() {
-        return isAvailable;
+        return available;
     }
 
     public void setAvailable(Boolean available) {
-        isAvailable = available;
+        this.available = available;
     }
 
     public LocalDateTime getCreatedAt() {
