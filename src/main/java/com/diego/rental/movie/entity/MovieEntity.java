@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "names")
+@Table(name = "movies")
 public class MovieEntity {
 
     @Id
@@ -20,24 +20,25 @@ public class MovieEntity {
 
     private Integer releaseYear;
 
-    private Boolean available = true;
+    @Enumerated(EnumType.STRING)
+    private MovieStatus status = MovieStatus.AVAILABLE;
 
     private LocalDateTime createdAt;
 
     @PrePersist
-    public void prePersist(){
+    public void prePersist() {
         this.createdAt = LocalDateTime.now();
     }
 
     public MovieEntity() {
     }
 
-    public MovieEntity(String title, String description, String genre, Integer releaseYear, Boolean available, LocalDateTime createdAt) {
+    public MovieEntity(String title, String description, String genre, Integer releaseYear, MovieStatus status, LocalDateTime createdAt) {
         this.title = title;
         this.description = description;
         this.genre = genre;
         this.releaseYear = releaseYear;
-        this.available = available;
+        this.status = status;
         this.createdAt = createdAt;
     }
 
@@ -81,12 +82,12 @@ public class MovieEntity {
         this.releaseYear = releaseYear;
     }
 
-    public Boolean getAvailable() {
-        return available;
+    public MovieStatus getStatus() {
+        return status;
     }
 
-    public void setAvailable(Boolean available) {
-        this.available = available;
+    public void setStatus(MovieStatus status) {
+        this.status = status;
     }
 
     public LocalDateTime getCreatedAt() {
