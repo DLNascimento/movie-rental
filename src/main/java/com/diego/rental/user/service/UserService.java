@@ -19,7 +19,7 @@ public class UserService {
     }
 
 
-    public UserResponseDTO create(UserRequestDTO requestDTO){
+    public UserResponseDTO create(UserRequestDTO requestDTO) {
 
         userRepository.findByEmail(requestDTO.email()).ifPresent(user -> {
             throw new BusinessException("Email already exists");
@@ -46,7 +46,7 @@ public class UserService {
 
     }
 
-    public List<UserResponseDTO> findAllUsers(){
+    public List<UserResponseDTO> findAllUsers() {
 
         return userRepository.findAll().stream().map(user -> new UserResponseDTO(
                 user.getId(),
@@ -57,13 +57,62 @@ public class UserService {
 
     }
 
-    public UserResponseDTO findById(Long id){
+    public UserResponseDTO findById(Long id) {
 
         UserEntity user = userRepository.findById(id).orElseThrow(() -> new BusinessException("User not found"));
         return new UserResponseDTO(user.getId(),
                 user.getName(),
                 user.getLastName(),
                 user.getEmail());
+
+    }
+
+
+    public UserResponseDTO updateUser(Long id, UserRequestDTO requestDTO) {
+
+        UserEntity user = userRepository.findById(id).orElseThrow(() -> new BusinessException("User not found"));
+
+        if (requestDTO.email() != null) {
+            userRepository.findByEmail(requestDTO.email()).
+                    ifPresent(existing -> {
+                        if (!existing.getId().equals(id)) {
+                            throw new BusinessException("Email already exists");
+                        }
+                    });
+        }
+
+        if (requestDTO.cpf() != null){
+            userRepository.findByCpf(requestDTO.cpf()).
+                    ifPresent(existing -> {
+                        if (!existing.getId().equals(id)){
+                            throw new BusinessException("CPF already exists");
+                        }
+
+            });
+        }
+
+        if (requestDTO.name() != null){
+            user.setName(requestDTO.name()) ;
+        }
+        if (requestDTO.lastName() != null){
+            user.setLastName(requestDTO.lastName());
+        }
+        if (requestDTO.email() != null) {
+            user.setEmail(requestDTO.email());
+        }
+
+        if (requestDTO.cpf() != null) {
+            user.setCpf(requestDTO.cpf());
+        }
+
+        UserEntity updated = userRepository.save(user);
+
+        return new UserResponseDTO(
+                updated.getId(),
+                updated.getName(),
+                updated.getLastName(),
+                updated.getEmail()
+        );
 
     }
 
