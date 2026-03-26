@@ -22,16 +22,19 @@ public class MovieService {
         movie.setDescription(createMovieDTO.description());
         movie.setGenre(createMovieDTO.genre());
         movie.setReleaseYear(createMovieDTO.releaseYear());
-
         MovieEntity saved = repository.save(movie);
+        return toResponse(saved);
+    }
+
+    private MovieResponseDTO toResponse(MovieEntity entity){
 
         return new MovieResponseDTO(
-                saved.getId(),
-                saved.getTitle(),
-                saved.getDescription(),
-                saved.getGenre(),
-                saved.getReleaseYear(),
-                saved.getStatus()
+                entity.getId(),
+                entity.getTitle(),
+                entity.getDescription(),
+                entity.getGenre(),
+                entity.getReleaseYear(),
+                entity.getStatus()
         );
 
     }
