@@ -6,6 +6,8 @@ import com.diego.rental.movie.entity.MovieEntity;
 import com.diego.rental.movie.repository.MovieRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MovieService {
 
@@ -24,6 +26,13 @@ public class MovieService {
         movie.setReleaseYear(createMovieDTO.releaseYear());
         MovieEntity saved = repository.save(movie);
         return toResponse(saved);
+    }
+
+    public List<MovieResponseDTO> findAll(){
+        return repository.findAll()
+                .stream()
+                .map(this::toResponse)
+                .toList();
     }
 
     private MovieResponseDTO toResponse(MovieEntity entity){
