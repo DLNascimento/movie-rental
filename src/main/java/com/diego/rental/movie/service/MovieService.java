@@ -4,6 +4,7 @@ import com.diego.rental.movie.dto.CreateMovieDTO;
 import com.diego.rental.movie.dto.MovieResponseDTO;
 import com.diego.rental.movie.entity.MovieEntity;
 import com.diego.rental.movie.repository.MovieRepository;
+import com.diego.rental.shared.exception.BusinessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,6 +34,13 @@ public class MovieService {
                 .stream()
                 .map(this::toResponse)
                 .toList();
+    }
+
+    public MovieResponseDTO findById(Long id){
+
+        MovieEntity entity = repository.findById(id).orElseThrow(() -> new BusinessException("Movie not found"));
+        return toResponse(entity);
+
     }
 
     private MovieResponseDTO toResponse(MovieEntity entity){
