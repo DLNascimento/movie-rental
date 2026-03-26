@@ -43,6 +43,11 @@ public class MovieService {
 
     }
 
+    public void deleteById(Long id){
+        MovieEntity entity = repository.findById(id).orElseThrow(() -> new BusinessException("Movie not found"));
+         repository.deleteById(id);
+    }
+
     private MovieResponseDTO toResponse(MovieEntity entity){
 
         return new MovieResponseDTO(
