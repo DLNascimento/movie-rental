@@ -2,6 +2,7 @@ package com.diego.rental.movie.controller;
 
 import com.diego.rental.movie.dto.CreateMovieDTO;
 import com.diego.rental.movie.dto.MovieResponseDTO;
+import com.diego.rental.movie.dto.UpdateMovieDTO;
 import com.diego.rental.movie.service.MovieService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,12 @@ public class MovieController {
         MovieResponseDTO response = movieService.findById(id);
         return ResponseEntity.ok(response);
 
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<MovieResponseDTO> updateById(@PathVariable Long id,
+                                                       @RequestBody UpdateMovieDTO dto){
+        return ResponseEntity.ok(movieService.updateById(id, dto));
     }
 
     @DeleteMapping("/{id}")

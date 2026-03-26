@@ -2,6 +2,7 @@ package com.diego.rental.movie.service;
 
 import com.diego.rental.movie.dto.CreateMovieDTO;
 import com.diego.rental.movie.dto.MovieResponseDTO;
+import com.diego.rental.movie.dto.UpdateMovieDTO;
 import com.diego.rental.movie.entity.MovieEntity;
 import com.diego.rental.movie.repository.MovieRepository;
 import com.diego.rental.shared.exception.BusinessException;
@@ -40,6 +41,21 @@ public class MovieService {
 
         MovieEntity entity = repository.findById(id).orElseThrow(() -> new BusinessException("Movie not found"));
         return toResponse(entity);
+
+    }
+
+    public MovieResponseDTO updateById(Long id, UpdateMovieDTO dto){
+
+        MovieEntity movie = repository.findById(id).orElseThrow(() -> new BusinessException("Movie not found"));
+
+        if (dto.title() != null) movie.setTitle(dto.title());
+        if (dto.description() != null) movie.setDescription(dto.description());
+        if (dto.genre() != null) movie.setGenre(dto.genre());
+        if (dto.releaseYear() != null) movie.setReleaseYear(dto.releaseYear());
+
+        MovieEntity updated = repository.save(movie);
+
+        return toResponse(updated);
 
     }
 
