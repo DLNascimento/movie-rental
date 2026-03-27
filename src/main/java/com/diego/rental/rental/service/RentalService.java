@@ -13,6 +13,7 @@ import com.diego.rental.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class RentalService {
@@ -53,11 +54,11 @@ public class RentalService {
 
     }
 
-    public RentalResponseDTO returnMovie(Long rentalId){
+    public RentalResponseDTO returnMovie(Long rentalId) {
         RentalEntity rental = repository.findById(rentalId)
                 .orElseThrow(() -> new BusinessException("Rental not found"));
 
-        if (rental.getReturnDate() != null){
+        if (rental.getReturnDate() != null) {
             throw new BusinessException("Movie already returned");
         }
         rental.setReturnDate(LocalDateTime.now());
@@ -67,6 +68,13 @@ public class RentalService {
 
         RentalEntity updated = repository.save(rental);
         return toResponse(updated);
+    }
+
+    public List<RentalResponseDTO> findActiveRentals() {
+        return repository.findByReturnDateIsNull().
+                stream().
+                map(this::toResponse).
+                toList();
     }
 
     public RentalResponseDTO toResponse(RentalEntity rental) {
