@@ -77,6 +77,14 @@ public class RentalService {
                 toList();
     }
 
+    public List<RentalResponseDTO> findActiveByUser(Long userId){
+
+        return repository.findByUserIdAndReturnDateIsNull(userId)
+                .stream()
+                .map(this::toResponse).toList();
+
+    }
+
     public RentalResponseDTO toResponse(RentalEntity rental) {
 
         return new RentalResponseDTO(

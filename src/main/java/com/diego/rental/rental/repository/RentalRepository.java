@@ -10,4 +10,5 @@ import java.util.List;
 public interface RentalRepository extends JpaRepository<RentalEntity, Long> {
 
     List<RentalEntity> findByReturnDateIsNull();
+    List<RentalEntity> findByUserIdAndReturnDateIsNull(Long userId);
 }

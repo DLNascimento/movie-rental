@@ -1,6 +1,5 @@
 package com.diego.rental.rental.controller;
 
-import com.diego.rental.movie.dto.CreateMovieDTO;
 import com.diego.rental.rental.dto.CreateRentalDTO;
 import com.diego.rental.rental.dto.RentalResponseDTO;
 import com.diego.rental.rental.service.RentalService;
@@ -40,5 +39,10 @@ public class RentalController {
     @GetMapping("/active")
     public ResponseEntity<List<RentalResponseDTO>> findActiveRentals(){
         return ResponseEntity.ok(rentalService.findActiveRentals());
+    }
+
+    @GetMapping("/active/user/{userId}")
+    public ResponseEntity<List<RentalResponseDTO>> findActiveByUser(@PathVariable Long userId){
+        return ResponseEntity.ok(rentalService.findActiveByUser(userId));
     }
 }
