@@ -26,19 +26,23 @@ public class RentalEntity {
 
     private LocalDateTime returnDate;
 
+    private LocalDateTime dueDate;
+
     @PrePersist
     public void prePersist(){
         this.rentalDate = LocalDateTime.now();
+        this.dueDate = rentalDate.plusDays(3);
     }
 
     public RentalEntity() {
     }
 
-    public RentalEntity(UserEntity user, MovieEntity movie, LocalDateTime rentalDate, LocalDateTime returnDate) {
+    public RentalEntity(UserEntity user, MovieEntity movie, LocalDateTime rentalDate, LocalDateTime returnDate, LocalDateTime dueDate) {
         this.user = user;
         this.movie = movie;
         this.rentalDate = rentalDate;
         this.returnDate = returnDate;
+        this.dueDate = dueDate;
     }
 
     public Long getId() {
@@ -79,5 +83,13 @@ public class RentalEntity {
 
     public void setReturnDate(LocalDateTime returnDate) {
         this.returnDate = returnDate;
+    }
+
+    public  LocalDateTime getDueDate(){
+        return dueDate;
+    }
+
+    public void setDueDate(LocalDateTime dueDate) {
+        this.dueDate = dueDate;
     }
 }

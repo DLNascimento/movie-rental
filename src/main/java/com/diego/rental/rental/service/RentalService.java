@@ -13,6 +13,7 @@ import com.diego.rental.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -61,7 +62,15 @@ public class RentalService {
         if (rental.getReturnDate() != null) {
             throw new BusinessException("Movie already returned");
         }
-        rental.setReturnDate(LocalDateTime.now());
+        LocalDateTime now = LocalDateTime.now();
+        rental.setReturnDate(now);
+        long fine = 0;
+
+
+        if (now.isAfter(rental.getDueDate())){
+            long daysLate = ChronoUnit.DAYS.between(rental.getDueDate(), now);
+            fine = daysLate * 5;
+        }
 
         MovieEntity movie = rental.getMovie();
         movie.setStatus(MovieStatus.AVAILABLE);
@@ -85,15 +94,29 @@ public class RentalService {
 
     }
 
-    public RentalResponseDTO toResponse(RentalEntity rental) {
+    private RentalResponseDTO toResponse(RentalEntity rental) {
+
+        long fine = 0;
+
+        if (rental.getReturnDate() != null &&
+                rental.getReturnDate().isAfter(rental.getDueDate())) {
+
+            long daysLate = ChronoUnit.DAYS.between(
+                    rental.getDueDate(),
+                    rental.getReturnDate()
+            );
+
+            fine = daysLate * 5;
+        }
 
         return new RentalResponseDTO(
                 rental.getId(),
                 rental.getUser().getId(),
                 rental.getMovie().getId(),
                 rental.getRentalDate(),
-                rental.getReturnDate()
+                rental.getDueDate(),
+                rental.getReturnDate(),
+                fine
         );
-
     }
 }

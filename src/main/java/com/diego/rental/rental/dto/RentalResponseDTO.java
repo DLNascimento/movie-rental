@@ -7,6 +7,8 @@ public record RentalResponseDTO(
         Long userId,
         Long movieId,
         LocalDateTime rentalDate,
-        LocalDateTime returnDate
+        LocalDateTime dueDate,
+        LocalDateTime returnDate,
+        Long fine
 ) {
 }
