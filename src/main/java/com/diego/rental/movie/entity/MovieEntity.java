@@ -14,6 +14,7 @@ public class MovieEntity {
 
     private String title;
 
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     private String genre;
@@ -97,4 +98,6 @@ public class MovieEntity {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+
+
 }

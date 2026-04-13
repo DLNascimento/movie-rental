@@ -27,6 +27,10 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
     }
+    @PostMapping("/import")
+    public ResponseEntity<MovieResponseDTO> importMovie(@RequestParam String title){
+        return ResponseEntity.ok(movieService.importMovie(title));
+    }
 
     @GetMapping
     public ResponseEntity<List<MovieResponseDTO>> findAll(){
